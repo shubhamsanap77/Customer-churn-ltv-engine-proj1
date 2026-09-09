@@ -1,0 +1,42 @@
+[
+    {
+        "feature": "is_month_to_month",
+        "mean_abs_shap": 0.62678
+    },
+    {
+        "feature": "tenure",
+        "mean_abs_shap": 0.22263
+    },
+    {
+        "feature": "bill_shock",
+        "mean_abs_shap": 0.22054
+    },
+    {
+        "feature": "InternetService_Fiber optic",
+        "mean_abs_shap": 0.22008
+    },
+    {
+        "feature": "MonthlyCharges",
+        "mean_abs_shap": 0.20025
+    },
+    {
+        "feature": "monthly_to_total_ratio",
+        "mean_abs_shap": 0.1964
+    },
+    {
+        "feature": "is_long_term_contract",
+        "mean_abs_shap": 0.14983
+    },
+    {
+        "feature": "is_electronic_check",
+        "mean_abs_shap": 0.13418
+    },
+    {
+        "feature": "Contract_Two year",
+        "mean_abs_shap": 0.12986
+    },
+    {
+        "feature": "PaperlessBilling",
+        "mean_abs_shap": 0.12662
+    }
+]
