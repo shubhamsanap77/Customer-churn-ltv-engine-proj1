@@ -1,0 +1,3 @@
+Model,Best_CV_F1,Test_F1,Test_Recall,Test_Precision,Test_ROC_AUC,Best_Params
+Random Forest (Tuned),0.6395,0.6345,0.738,0.5565,0.842,"{'class_weight': 'balanced', 'max_depth': 10, 'min_samples_leaf': 2, 'n_estimators': 150}"
+XGBoost (Tuned),0.6346,0.6259,0.7941,0.5165,0.8479,"{'eval_metric': 'logloss', 'learning_rate': 0.03, 'max_depth': 3, 'n_estimators': 250, 'scale_pos_weight': 2.768561872909699, 'subsample': 0.8}"

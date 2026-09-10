@@ -1,16 +1,19 @@
 # Week 2: Feature Engineering & Predictive Modeling
 
-This directory contains the complete implementation for **Week 2** of the Customer Churn Prediction & Lifetime Value (LTV) Engine.
+This directory contains the production-grade implementation for **Week 2** of the Customer Churn Prediction & Lifetime Value (LTV) Engine.
 
 ---
 
-## 🎯 Week 2 Objectives & Completed Tasks
+## 🎯 Week 2 Objectives & Completed Deliverables
 
 - [x] **Feature Engineering**: Engineered 47 domain-specific features capturing customer lifecycle cohorts, spending dynamics, bill shock, and service bundles.
 - [x] **Classification Modeling**: Built, trained, and tuned **Logistic Regression**, **Random Forest**, and **XGBoost** classifiers with class-imbalance weighting.
 - [x] **Evaluation Benchmarking**: Evaluated models using **Precision**, **Recall**, **F1-Score**, **Accuracy**, and **ROC-AUC**.
 - [x] **SHAP Explainability**: Implemented SHAP `TreeExplainer` for global feature importance (beeswarm & bar plots) and local individual customer waterfall explanations.
-- [x] **Model & Report Artifacts**: Serialized champion models, preprocessing scalers, and generated publication-quality evaluation plots.
+- [x] **Hyperparameter Optimization**: 5-Fold Stratified Cross-Validation grid search on tree depths, estimators, and learning rates.
+- [x] **Decision Threshold & Profit Optimization**: Analyzed the full threshold curve [0.05 - 0.95] and optimized retention campaign ROI.
+- [x] **Automated Pipeline Tests**: 7-stage unit test suite verifying zero target leakage, clean imputation, and valid probability bounds.
+- [x] **Model Governance**: Formal Google-standard [`MODEL_CARD.md`](./MODEL_CARD.md) including subgroup fairness analysis (Gender & Senior Citizen cohorts).
 
 ---
 
@@ -19,24 +22,34 @@ This directory contains the complete implementation for **Week 2** of the Custom
 ```text
 week_2/
 ├── __init__.py
-├── README.md                           # Comprehensive documentation & findings
+├── README.md                           # Week 2 documentation & findings
+├── MODEL_CARD.md                       # Industry standard ML Model Card & fairness checks
 ├── data_loader.py                      # Dataset caching & loading pipeline
 ├── feature_engineering.py              # Feature creation & preprocessing logic
 ├── train_and_evaluate.py               # Model training, evaluation & metrics
+├── hyperparameter_tuning.py            # 5-fold Stratified CV hyperparameter search
+├── threshold_optimizer.py              # Classification threshold & business profit optimizer
 ├── shap_explainability.py              # SHAP beeswarm & waterfall explanations
-├── run_week_2.py                       # Single-command orchestrator for Week 2
+├── test_pipeline.py                    # Automated unit & data integrity test suite
+├── run_week_2.py                       # Master orchestrator executing entire pipeline
 ├── Week_2_Predictive_Modeling.ipynb    # Interactive Jupyter Notebook
 ├── data/
 │   └── Telco-Customer-Churn.csv        # Real IBM Telco churn dataset (7,043 rows)
 ├── models/
 │   ├── best_churn_model.pkl            # Champion model binary
+│   ├── tuned_churn_model.pkl           # Cross-validated tuned model
 │   ├── scaler.pkl                      # Fitted StandardScaler
 │   └── model_metadata.json             # Feature names and benchmark scores
 └── reports/
     ├── model_benchmark_results.csv     # Tabular metric comparison
+    ├── tuning_results.csv              # CV hyperparameter search results
+    ├── optimal_threshold_config.json   # Profit & F1 threshold configurations
     ├── model_metrics_comparison.png    # Bar chart of model performance
     ├── confusion_matrices_comparison.png # Side-by-side confusion matrix heatmaps
     ├── roc_curves_comparison.png       # Combined ROC curves with AUC
+    ├── cv_hyperparameter_performance.png # CV vs Test F1 performance
+    ├── precision_recall_threshold_curve.png # Precision-Recall vs threshold
+    ├── profit_curve_by_threshold.png   # Net retention business value curve
     ├── shap_summary_beeswarm.png       # Global feature impact beeswarm
     ├── shap_feature_importance_bar.png # Mean |SHAP| ranking
     ├── shap_waterfall_high_risk.png    # Local high-risk customer explanation
@@ -67,19 +80,28 @@ week_2/
 
 Evaluation on stratified test set (1,409 customers, 26.54% churn rate):
 
-| Model | Accuracy | Precision | Recall | F1-Score | ROC-AUC |
-|---|---|---|---|---|---|
-| **Random Forest** (Champion) | **77.15%** | **0.5483** | **78.88%** | **0.6469** | **0.8471** |
-| **XGBoost** | 75.80% | 0.5303 | 77.27% | 0.6289 | 0.8455 |
-| **Logistic Regression** | 73.46% | 0.5000 | 79.41% | 0.6136 | 0.8483 |
+| Model | Accuracy | Precision | Recall | F1-Score | ROC-AUC | Status |
+|---|---|---|---|---|---|---|
+| **Random Forest** | **77.15%** | **0.5483** | **78.88%** | **0.6469** | **0.8471** | 🏆 Champion |
+| **XGBoost** | 75.80% | 0.5303 | 77.27% | 0.6289 | 0.8455 | High Performer |
+| **Logistic Regression** | 73.46% | 0.5000 | 79.41% | 0.6136 | 0.8483 | Baseline |
 
-> **Key Takeaway**: Random Forest and XGBoost achieve an outstanding **~79% Recall** and **~0.85 ROC-AUC**. For proactive customer retention, prioritizing **Recall and F1-Score** ensures the business catches approximately 8 out of every 10 churning customers before cancellation occurs.
+---
+
+## 💰 Business Profit & Threshold Optimization
+
+Default classification cutoffs (0.50) assume equal cost of false positives and false negatives. In customer churn, failing to identify a churner incurs heavy customer replacement acquisition costs ($500+), while retention outreach costs only $50.
+
+| Operating Threshold | Precision | Recall | F1-Score | Expected Net Value |
+|---|---|---|---|---|
+| **0.50** (Default) | 54.83% | 78.88% | 0.6469 | $10,090.00 |
+| **0.13** (Optimal Profit) | 35.80% | **98.40%** | 0.5242 | **$44,620.00** |
+
+> Operating at the profit-optimal threshold of **0.13** captures **98.4% of churning accounts**, generating a projected **+$34,530 net value gain** over the default threshold.
 
 ---
 
 ## 🔍 SHAP Explainability & Key Drivers
-
-SHAP analysis using `TreeExplainer` reveals the top factors driving churn:
 
 1. **`is_month_to_month`**: Customers on month-to-month contracts have the highest churn hazard. Moving them to 1- or 2-year contracts significantly mitigates churn.
 2. **`tenure`**: Churn hazard decreases sharply as tenure exceeds 12–24 months.
@@ -91,20 +113,20 @@ SHAP analysis using `TreeExplainer` reveals the top factors driving churn:
 
 ## 🚀 How to Run
 
-To execute the entire Week 2 pipeline end-to-end and regenerate all models and plots:
+To execute the entire Week 2 pipeline end-to-end:
 
 ```bash
 python week_2/run_week_2.py
 ```
 
-To run individual components:
+To run individual modules:
 ```bash
-# Test feature engineering
-python week_2/feature_engineering.py
+# Run automated pipeline tests
+python week_2/test_pipeline.py
 
-# Train and evaluate models
-python week_2/train_and_evaluate.py
+# Run hyperparameter tuning (5-fold CV)
+python week_2/hyperparameter_tuning.py
 
-# Generate SHAP plots
-python week_2/shap_explainability.py
+# Run threshold & profit optimization
+python week_2/threshold_optimizer.py
 ```
