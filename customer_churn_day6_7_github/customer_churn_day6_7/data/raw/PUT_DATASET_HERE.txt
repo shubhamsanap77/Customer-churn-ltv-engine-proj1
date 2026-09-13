@@ -1,0 +1,7 @@
+Put the Telco Customer Churn CSV in this folder.
+
+Example:
+WA_Fn-UseC_-Telco-Customer-Churn.csv
+
+The Python pipeline automatically detects the first CSV file in this directory.
+Do not commit the raw dataset unless your project explicitly permits it.
