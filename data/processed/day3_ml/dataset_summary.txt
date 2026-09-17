@@ -1,0 +1,15 @@
+Input: initial_engineered_customer_dataset.csv
+Target: Churn
+Rows: 7043
+Features before encoding: 34
+Features after encoding: 5335
+X_train: (5634, 5335)
+X_test: (1409, 5335)
+y_train: (5634,)
+y_test: (1409,)
+Test size: 20%
+Random state: 42
+Overall churn rate: 0.2654
+Train churn rate: 0.2654
+Test churn rate: 0.2654
+Removed identifiers: ['customerID']
