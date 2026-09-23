@@ -1,0 +1,14 @@
+WEEK 3 DAY 3 — MODEL EVALUATION SUMMARY
+
+Test rows: 1,409
+Models evaluated: 3
+Metrics: Accuracy, Precision, Recall, F1, ROC-AUC
+
+              model  accuracy  precision   recall       f1  roc_auc
+Logistic Regression  0.753016   0.524074 0.756684 0.619256 0.839497
+      Random Forest  0.701207   0.463790 0.804813 0.588465 0.806492
+            XGBoost  0.750177   0.520000 0.764706 0.619048 0.838735
+
+All five requested metrics were generated successfully for every model.
+
+SUCCESS
