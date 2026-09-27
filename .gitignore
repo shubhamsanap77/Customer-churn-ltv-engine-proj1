@@ -16,3 +16,4 @@ data/processed/*.csv
 # Python cache
 .pytest_cache/
 .DS_Store
+data/processed/day3_ml/X_train.csv
