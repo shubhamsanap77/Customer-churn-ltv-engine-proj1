@@ -1,4 +1,4 @@
-# Week 3 Day 6 — Testing, Documentation & GitHub Cleanup
+# Week 3 Day 7 — Testing, Documentation & GitHub Cleanup
 
 ## Objective
 
