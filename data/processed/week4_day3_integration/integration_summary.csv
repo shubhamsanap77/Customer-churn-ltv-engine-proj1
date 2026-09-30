@@ -1,0 +1,16 @@
+Metric,Value
+Integrated customer rows,5174.0
+Unique customer IDs,5174.0
+Missing Estimated_LTV,0.0
+Minimum Estimated_LTV,19.1
+Maximum Estimated_LTV,7448.55
+Logistic_Churn_Probability minimum,0.0018021193204929302
+Logistic_Churn_Probability maximum,0.8218352857958277
+DecisionTree_Churn_Probability minimum,0.0
+DecisionTree_Churn_Probability maximum,0.888268156424581
+RandomForest_Churn_Probability minimum,0.06718957982255229
+RandomForest_Churn_Probability maximum,0.5072553745880453
+Logistic_Churn_Prediction positive predictions,299.0
+DecisionTree_Churn_Prediction positive predictions,486.0
+RandomForest_Churn_Prediction positive predictions,8.0
+All 3 models predict churn,8.0
