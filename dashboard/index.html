@@ -1,0 +1,634 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Customer Churn & LTV Engine - Power BI Interactive Dashboard</title>
+    <!-- Chart.js CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        :root {
+            --pbi-yellow: #f2c811;
+            --pbi-dark: #1f1f1f;
+            --pbi-sidebar: #252525;
+            --pbi-card: #2b2b2b;
+            --pbi-border: #3d3d3d;
+            --pbi-text: #ffffff;
+            --pbi-subtext: #a6a6a6;
+            --color-vip: #e63946;
+            --color-loyal: #2a9d8f;
+            --color-low: #f4a261;
+            --color-growth: #457b9d;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, sans-serif;
+        }
+
+        body {
+            background-color: var(--pbi-dark);
+            color: var(--pbi-text);
+            display: flex;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        /* Sidebar Navigation */
+        .sidebar {
+            width: 250px;
+            background-color: var(--pbi-sidebar);
+            border-right: 1px solid var(--pbi-border);
+            display: flex;
+            flex-direction: column;
+            padding: 20px 15px;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 30px;
+        }
+
+        .brand-icon {
+            width: 32px;
+            height: 32px;
+            background-color: var(--pbi-yellow);
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: #000;
+        }
+
+        .brand-title {
+            font-size: 16px;
+            font-weight: 700;
+            line-height: 1.2;
+        }
+
+        .brand-sub {
+            font-size: 11px;
+            color: var(--pbi-yellow);
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 14px;
+            border-radius: 8px;
+            color: var(--pbi-subtext);
+            text-decoration: none;
+            font-size: 14px;
+            margin-bottom: 6px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .nav-item.active, .nav-item:hover {
+            background-color: rgba(242, 200, 17, 0.15);
+            color: var(--pbi-yellow);
+            font-weight: 600;
+        }
+
+        .meta-box {
+            margin-top: auto;
+            background: rgba(255, 255, 255, 0.05);
+            padding: 14px;
+            border-radius: 8px;
+            font-size: 12px;
+            border-left: 3px solid var(--pbi-yellow);
+        }
+
+        /* Main Content Container */
+        .main-container {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            overflow-y: auto;
+            background-color: #181818;
+        }
+
+        /* Header Bar */
+        .topbar {
+            height: 64px;
+            background-color: var(--pbi-sidebar);
+            border-bottom: 1px solid var(--pbi-border);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 30px;
+        }
+
+        .topbar h1 {
+            font-size: 18px;
+            font-weight: 600;
+        }
+
+        .filter-group {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .filter-select {
+            background: #2f2f2f;
+            color: #fff;
+            border: 1px solid var(--pbi-border);
+            padding: 7px 14px;
+            border-radius: 6px;
+            font-size: 13px;
+            outline: none;
+        }
+
+        /* Dashboard Body Grid */
+        .content {
+            padding: 25px 30px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        /* KPI Cards Row */
+        .kpi-row {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 18px;
+        }
+
+        .kpi-card {
+            background-color: var(--pbi-card);
+            border: 1px solid var(--pbi-border);
+            border-radius: 10px;
+            padding: 18px 20px;
+            position: relative;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+        }
+
+        .kpi-card.alert {
+            border-top: 3px solid var(--color-vip);
+        }
+
+        .kpi-card.success {
+            border-top: 3px solid var(--color-loyal);
+        }
+
+        .kpi-card.warning {
+            border-top: 3px solid var(--pbi-yellow);
+        }
+
+        .kpi-card.info {
+            border-top: 3px solid var(--color-growth);
+        }
+
+        .kpi-title {
+            font-size: 12px;
+            color: var(--pbi-subtext);
+            text-transform: uppercase;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            margin-bottom: 8px;
+        }
+
+        .kpi-value {
+            font-size: 26px;
+            font-weight: 700;
+            color: #ffffff;
+            margin-bottom: 4px;
+        }
+
+        .kpi-sub {
+            font-size: 12px;
+            color: var(--pbi-subtext);
+        }
+
+        /* Chart Grid Layout */
+        .charts-row {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 20px;
+        }
+
+        .chart-card {
+            background-color: var(--pbi-card);
+            border: 1px solid var(--pbi-border);
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+        }
+
+        .chart-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .chart-title {
+            font-size: 15px;
+            font-weight: 600;
+        }
+
+        .chart-desc {
+            font-size: 12px;
+            color: var(--pbi-subtext);
+        }
+
+        /* What-If Simulator Panel */
+        .simulator-box {
+            background: linear-gradient(145deg, #2b2b2b, #222222);
+            border: 1px solid var(--pbi-border);
+            border-left: 4px solid var(--pbi-yellow);
+            border-radius: 10px;
+            padding: 20px 24px;
+            display: grid;
+            grid-template-columns: 1.2fr 1fr 1fr;
+            gap: 20px;
+            align-items: center;
+        }
+
+        .slider-control label {
+            display: flex;
+            justify-content: space-between;
+            font-size: 13px;
+            font-weight: 600;
+            margin-bottom: 6px;
+        }
+
+        .slider-control input[type=range] {
+            width: 100%;
+            accent-color: var(--pbi-yellow);
+        }
+
+        .sim-stat {
+            background: rgba(0,0,0,0.3);
+            padding: 12px 18px;
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        .sim-stat-val {
+            font-size: 22px;
+            font-weight: 700;
+            color: var(--pbi-yellow);
+        }
+
+        /* Table Card */
+        .table-card {
+            background-color: var(--pbi-card);
+            border: 1px solid var(--pbi-border);
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 13px;
+            margin-top: 10px;
+        }
+
+        th {
+            text-align: left;
+            padding: 10px 12px;
+            background: #232323;
+            color: var(--pbi-subtext);
+            font-weight: 600;
+            border-bottom: 2px solid var(--pbi-border);
+        }
+
+        td {
+            padding: 10px 12px;
+            border-bottom: 1px solid #333333;
+        }
+
+        tr:hover td {
+            background: rgba(255, 255, 255, 0.03);
+        }
+
+        .badge {
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-size: 11px;
+            font-weight: 600;
+        }
+
+        .badge-vip { background-color: rgba(230, 57, 70, 0.2); color: #e63946; }
+        .badge-loyal { background-color: rgba(42, 157, 143, 0.2); color: #2a9d8f; }
+        .badge-plat { background-color: rgba(242, 200, 17, 0.2); color: #f2c811; }
+    </style>
+</head>
+<body>
+
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <div class="brand">
+            <div class="brand-icon">Pb</div>
+            <div>
+                <div class="brand-title">Churn & LTV Engine</div>
+                <div class="brand-sub">Power BI Dashboard</div>
+            </div>
+        </div>
+
+        <div class="nav-item active">📊 Executive Overview</div>
+        <div class="nav-item">⚠️ Churn Risk Analysis</div>
+        <div class="nav-item">💎 LTV & Value Tiers</div>
+        <div class="nav-item">🎯 Strategic 2x2 Matrix</div>
+        <div class="nav-item">💡 What-If Simulator</div>
+
+        <div class="meta-box">
+            <strong>Week 4 Day 4 Project</strong><br>
+            Developer: <b>Rajesh (Rajarsh)</b><br>
+            Models: Logistic Regression + XGBoost<br>
+            Dataset: 7,043 Accounts
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-container">
+        <!-- Top Bar -->
+        <div class="topbar">
+            <h1>Executive Retention & Customer Lifetime Value Dashboard</h1>
+            <div class="filter-group">
+                <select class="filter-select" id="filterContract">
+                    <option value="All">Contract: All Types</option>
+                    <option value="Month-to-month">Month-to-month</option>
+                    <option value="One year">One year</option>
+                    <option value="Two year">Two year</option>
+                </select>
+                <select class="filter-select" id="filterTier">
+                    <option value="All">LTV Tier: All</option>
+                    <option value="Platinum">Platinum (Top 20%)</option>
+                    <option value="Gold">Gold</option>
+                    <option value="Silver">Silver</option>
+                    <option value="Bronze">Bronze</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="content">
+            <!-- Top KPI Row -->
+            <div class="kpi-row">
+                <div class="kpi-card info">
+                    <div class="kpi-title">Total Active Accounts</div>
+                    <div class="kpi-value">7,043</div>
+                    <div class="kpi-sub">Telecommunications Subscribers</div>
+                </div>
+
+                <div class="kpi-card alert">
+                    <div class="kpi-title">High Churn Risk Accounts</div>
+                    <div class="kpi-value">2,285</div>
+                    <div class="kpi-sub">32.4% Predicted at Risk (P ≥ 60%)</div>
+                </div>
+
+                <div class="kpi-card warning">
+                    <div class="kpi-title">Total Portfolio Value (LTV)</div>
+                    <div class="kpi-value">$22.31M</div>
+                    <div class="kpi-sub">Historical + Projected 3-Yr Future</div>
+                </div>
+
+                <div class="kpi-card alert">
+                    <div class="kpi-title">VIP Revenue at Stake</div>
+                    <div class="kpi-value">$2.13M</div>
+                    <div class="kpi-sub">478 VIP High-LTV Accounts at Risk</div>
+                </div>
+            </div>
+
+            <!-- What-If Retention Simulator -->
+            <div class="simulator-box">
+                <div class="slider-control">
+                    <label>
+                        <span>Retention Outreach Success Rate</span>
+                        <span id="rateLabel">50%</span>
+                    </label>
+                    <input type="range" id="rateSlider" min="20" max="80" value="50" step="5">
+                    <div style="font-size: 11px; color: var(--pbi-subtext); margin-top: 4px;">Assumes $50 per-account high-touch retention offer cost.</div>
+                </div>
+
+                <div class="sim-stat">
+                    <div style="font-size: 11px; color: var(--pbi-subtext); text-transform: uppercase;">Rescued Revenue</div>
+                    <div class="sim-stat-val" id="rescuedVal">$1,063,325</div>
+                </div>
+
+                <div class="sim-stat">
+                    <div style="font-size: 11px; color: var(--pbi-subtext); text-transform: uppercase;">Net Campaign ROI</div>
+                    <div class="sim-stat-val" style="color: #2a9d8f;" id="roiVal">+$1,039,425</div>
+                </div>
+            </div>
+
+            <!-- Charts Row 1: Strategic 2x2 Matrix & LTV Tier Revenue -->
+            <div class="charts-row">
+                <div class="chart-card">
+                    <div class="chart-header">
+                        <div>
+                            <div class="chart-title">Strategic 2x2 Retention Quadrant (Churn Risk vs Total LTV)</div>
+                            <div class="chart-desc">Identifies high-value targets requiring immediate proactive retention intervention</div>
+                        </div>
+                    </div>
+                    <div style="height: 320px;">
+                        <canvas id="quadrantChart"></canvas>
+                    </div>
+                </div>
+
+                <div class="chart-card">
+                    <div class="chart-header">
+                        <div>
+                            <div class="chart-title">Revenue Share by LTV Tier</div>
+                            <div class="chart-desc">Platinum accounts drive 53.3% of revenue</div>
+                        </div>
+                    </div>
+                    <div style="height: 320px;">
+                        <canvas id="tierDonutChart"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Charts Row 2: Contract Risk & Priority VIP Drill-down -->
+            <div class="charts-row" style="grid-template-columns: 1fr 2fr;">
+                <div class="chart-card">
+                    <div class="chart-header">
+                        <div>
+                            <div class="chart-title">Churn Risk by Contract</div>
+                            <div class="chart-desc">Month-to-month contracts have 42.7% churn hazard</div>
+                        </div>
+                    </div>
+                    <div style="height: 280px;">
+                        <canvas id="contractChart"></canvas>
+                    </div>
+                </div>
+
+                <!-- Priority VIP Rescue List -->
+                <div class="table-card">
+                    <div class="chart-header">
+                        <div>
+                            <div class="chart-title">🚨 Top VIP Accounts at Immediate Risk (Drill-Down)</div>
+                            <div class="chart-desc">Immediate high-touch outreach recommended for account management</div>
+                        </div>
+                    </div>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Customer ID</th>
+                                <th>Contract</th>
+                                <th>Monthly Spend</th>
+                                <th>Expected LTV</th>
+                                <th>Churn Risk</th>
+                                <th>Recommended Retention Playbook</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><b>7569-NMZYQ</b></td>
+                                <td>Two year</td>
+                                <td>$118.75</td>
+                                <td><b>$12,947</b> <span class="badge badge-plat">Platinum</span></td>
+                                <td><span class="badge badge-vip">78.4% Risk</span></td>
+                                <td>Assign Dedicated Account Rep + Free 1Gbps Fiber Upgrade</td>
+                            </tr>
+                            <tr>
+                                <td><b>9739-JLPQJ</b></td>
+                                <td>Two year</td>
+                                <td>$117.50</td>
+                                <td><b>$12,900</b> <span class="badge badge-plat">Platinum</span></td>
+                                <td><span class="badge badge-vip">74.2% Risk</span></td>
+                                <td>VIP Contract Renewal Loyalty Discount (20% Off 12 Mo)</td>
+                            </tr>
+                            <tr>
+                                <td><b>9788-HNGUT</b></td>
+                                <td>Two year</td>
+                                <td>$116.95</td>
+                                <td><b>$12,804</b> <span class="badge badge-plat">Platinum</span></td>
+                                <td><span class="badge badge-vip">71.0% Risk</span></td>
+                                <td>Technical Support Concierge + Bundled Security Suite</td>
+                            </tr>
+                            <tr>
+                                <td><b>8879-XUAHX</b></td>
+                                <td>Two year</td>
+                                <td>$116.25</td>
+                                <td><b>$12,750</b> <span class="badge badge-plat">Platinum</span></td>
+                                <td><span class="badge badge-vip">69.8% Risk</span></td>
+                                <td>Executive Outreach & Free Multi-Stream Entertainment Pack</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Chart Configuration Script -->
+    <script>
+        // 1. Quadrant Bar Chart
+        const ctxQuad = document.getElementById('quadrantChart').getContext('2d');
+        new Chart(ctxQuad, {
+            type: 'bar',
+            data: {
+                labels: ['Loyal Champions', 'Growth Opportunities', 'VIP at Risk (🚨)', 'Low-Value Churn'],
+                datasets: [
+                    {
+                        label: 'Total Revenue ($)',
+                        data: [15596623, 3042191, 2126652, 1547551],
+                        backgroundColor: ['#2a9d8f', '#457b9d', '#e63946', '#f4a261'],
+                        borderRadius: 6
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { display: false }
+                },
+                scales: {
+                    x: { ticks: { color: '#bbb' }, grid: { display: false } },
+                    y: {
+                        ticks: {
+                            color: '#bbb',
+                            callback: val => '$' + (val / 1e6).toFixed(1) + 'M'
+                        },
+                        grid: { color: '#333' }
+                    }
+                }
+            }
+        });
+
+        // 2. Tier Donut Chart
+        const ctxTier = document.getElementById('tierDonutChart').getContext('2d');
+        new Chart(ctxTier, {
+            type: 'doughnut',
+            data: {
+                labels: ['Platinum (53.3%)', 'Gold (26.2%)', 'Silver (12.9%)', 'Bronze (7.7%)'],
+                datasets: [{
+                    data: [11900000, 5840000, 2880000, 1690000],
+                    backgroundColor: ['#f2c811', '#e76f51', '#457b9d', '#8d99ae'],
+                    borderWidth: 0
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { position: 'bottom', labels: { color: '#bbb', font: { size: 11 } } }
+                }
+            }
+        });
+
+        // 3. Contract Risk Chart
+        const ctxContract = document.getElementById('contractChart').getContext('2d');
+        new Chart(ctxContract, {
+            type: 'bar',
+            data: {
+                labels: ['Month-to-month', 'One year', 'Two year'],
+                datasets: [{
+                    label: 'Historical Churn Rate %',
+                    data: [42.7, 11.3, 2.8],
+                    backgroundColor: ['#e63946', '#f4a261', '#2a9d8f'],
+                    borderRadius: 6
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: { legend: { display: false } },
+                scales: {
+                    x: { ticks: { color: '#bbb' }, grid: { display: false } },
+                    y: {
+                        ticks: { color: '#bbb', callback: v => v + '%' },
+                        grid: { color: '#333' }
+                    }
+                }
+            }
+        });
+
+        // Interactive What-If Simulator
+        const rateSlider = document.getElementById('rateSlider');
+        const rateLabel = document.getElementById('rateLabel');
+        const rescuedVal = document.getElementById('rescuedVal');
+        const roiVal = document.getElementById('roiVal');
+
+        const vipTotalRevenue = 2126651.75;
+        const vipAccounts = 478;
+        const costPerAccount = 50;
+
+        rateSlider.addEventListener('input', (e) => {
+            const rate = e.target.value / 100;
+            rateLabel.innerText = e.target.value + '%';
+            
+            const rescued = vipTotalRevenue * rate;
+            const cost = vipAccounts * costPerAccount;
+            const roi = rescued - cost;
+
+            rescuedVal.innerText = '$' + Math.round(rescued).toLocaleString();
+            roiVal.innerText = '+$' + Math.round(roi).toLocaleString();
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,229 @@
+{
+  "compatibilityLevel": 1550,
+  "model": {
+    "culture": "en-US",
+    "dataAccessOptions": {
+      "legacyRedirects": true,
+      "returnErrorValuesAsNull": true
+    },
+    "defaultPowerBIDataSourceVersion": "powerBI_V3",
+    "tables": [
+      {
+        "name": "Customer_Churn_LTV_Master",
+        "columns": [
+          {
+            "name": "customerID",
+            "dataType": "string",
+            "sourceColumn": "customerID"
+          },
+          {
+            "name": "gender",
+            "dataType": "string",
+            "sourceColumn": "gender"
+          },
+          {
+            "name": "SeniorCitizen",
+            "dataType": "int64",
+            "sourceColumn": "SeniorCitizen"
+          },
+          {
+            "name": "Partner",
+            "dataType": "string",
+            "sourceColumn": "Partner"
+          },
+          {
+            "name": "Dependents",
+            "dataType": "string",
+            "sourceColumn": "Dependents"
+          },
+          {
+            "name": "tenure",
+            "dataType": "int64",
+            "sourceColumn": "tenure"
+          },
+          {
+            "name": "PhoneService",
+            "dataType": "string",
+            "sourceColumn": "PhoneService"
+          },
+          {
+            "name": "MultipleLines",
+            "dataType": "string",
+            "sourceColumn": "MultipleLines"
+          },
+          {
+            "name": "InternetService",
+            "dataType": "string",
+            "sourceColumn": "InternetService"
+          },
+          {
+            "name": "OnlineSecurity",
+            "dataType": "string",
+            "sourceColumn": "OnlineSecurity"
+          },
+          {
+            "name": "OnlineBackup",
+            "dataType": "string",
+            "sourceColumn": "OnlineBackup"
+          },
+          {
+            "name": "DeviceProtection",
+            "dataType": "string",
+            "sourceColumn": "DeviceProtection"
+          },
+          {
+            "name": "TechSupport",
+            "dataType": "string",
+            "sourceColumn": "TechSupport"
+          },
+          {
+            "name": "StreamingTV",
+            "dataType": "string",
+            "sourceColumn": "StreamingTV"
+          },
+          {
+            "name": "StreamingMovies",
+            "dataType": "string",
+            "sourceColumn": "StreamingMovies"
+          },
+          {
+            "name": "Contract",
+            "dataType": "string",
+            "sourceColumn": "Contract"
+          },
+          {
+            "name": "PaperlessBilling",
+            "dataType": "string",
+            "sourceColumn": "PaperlessBilling"
+          },
+          {
+            "name": "PaymentMethod",
+            "dataType": "string",
+            "sourceColumn": "PaymentMethod"
+          },
+          {
+            "name": "MonthlyCharges",
+            "dataType": "double",
+            "sourceColumn": "MonthlyCharges"
+          },
+          {
+            "name": "TotalCharges",
+            "dataType": "double",
+            "sourceColumn": "TotalCharges"
+          },
+          {
+            "name": "Churn",
+            "dataType": "string",
+            "sourceColumn": "Churn"
+          },
+          {
+            "name": "Churn_Probability",
+            "dataType": "double",
+            "sourceColumn": "Churn_Probability"
+          },
+          {
+            "name": "Churn_Probability_Pct",
+            "dataType": "double",
+            "sourceColumn": "Churn_Probability_Pct"
+          },
+          {
+            "name": "Predicted_Churn",
+            "dataType": "string",
+            "sourceColumn": "Predicted_Churn"
+          },
+          {
+            "name": "Churn_Risk_Level",
+            "dataType": "string",
+            "sourceColumn": "Churn_Risk_Level"
+          },
+          {
+            "name": "Historical_LTV",
+            "dataType": "double",
+            "sourceColumn": "Historical_LTV"
+          },
+          {
+            "name": "Projected_Future_LTV",
+            "dataType": "double",
+            "sourceColumn": "Projected_Future_LTV"
+          },
+          {
+            "name": "Total_Expected_LTV",
+            "dataType": "double",
+            "sourceColumn": "Total_Expected_LTV"
+          },
+          {
+            "name": "LTV_Tier",
+            "dataType": "string",
+            "sourceColumn": "LTV_Tier"
+          },
+          {
+            "name": "Retention_Segment",
+            "dataType": "string",
+            "sourceColumn": "Retention_Segment"
+          },
+          {
+            "name": "Recommended_Action",
+            "dataType": "string",
+            "sourceColumn": "Recommended_Action"
+          }
+        ],
+        "partitions": [
+          {
+            "name": "Customer_Churn_LTV_Master-Partition",
+            "mode": "import",
+            "source": {
+              "type": "m",
+              "expression": [
+                "let",
+                "    Source = Csv.Document(File.Contents(\"c:\\\\Users\\\\TUF GAMING\\\\Downloads\\\\Customer-churn-ltv-engine-proj1-main\\\\Customer-churn-ltv-engine-proj1-main\\\\dashboard\\\\powerbi_customer_churn_ltv_master.csv\"), [Delimiter=\",\", Columns=31, Encoding=65001, QuoteStyle=QuoteStyle.None]),",
+                "    #\"Promoted Headers\" = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),",
+                "    #\"Changed Type\" = Table.TransformColumnTypes(#\"Promoted Headers\",{",
+                "        {\"customerID\", type text}, {\"gender\", type text}, {\"SeniorCitizen\", Int64.Type}, {\"Partner\", type text},",
+                "        {\"Dependents\", type text}, {\"tenure\", Int64.Type}, {\"PhoneService\", type text}, {\"MultipleLines\", type text},",
+                "        {\"InternetService\", type text}, {\"OnlineSecurity\", type text}, {\"OnlineBackup\", type text}, {\"DeviceProtection\", type text},",
+                "        {\"TechSupport\", type text}, {\"StreamingTV\", type text}, {\"StreamingMovies\", type text}, {\"Contract\", type text},",
+                "        {\"PaperlessBilling\", type text}, {\"PaymentMethod\", type text}, {\"MonthlyCharges\", type number}, {\"TotalCharges\", type number},",
+                "        {\"Churn\", type text}, {\"Churn_Probability\", type number}, {\"Churn_Probability_Pct\", type number}, {\"Predicted_Churn\", type text},",
+                "        {\"Churn_Risk_Level\", type text}, {\"Historical_LTV\", type number}, {\"Projected_Future_LTV\", type number},",
+                "        {\"Total_Expected_LTV\", type number}, {\"LTV_Tier\", type text}, {\"Retention_Segment\", type text}, {\"Recommended_Action\", type text}",
+                "    })",
+                "in",
+                "    #\"Changed Type\""
+              ]
+            }
+          }
+        ],
+        "measures": [
+          {
+            "name": "Total Customers",
+            "expression": "COUNTROWS('Customer_Churn_LTV_Master')"
+          },
+          {
+            "name": "Total Portfolio LTV",
+            "expression": "SUM('Customer_Churn_LTV_Master'[Total_Expected_LTV])"
+          },
+          {
+            "name": "Average Customer LTV",
+            "expression": "AVERAGE('Customer_Churn_LTV_Master'[Total_Expected_LTV])"
+          },
+          {
+            "name": "High Risk Customer Count",
+            "expression": "CALCULATE(COUNTROWS('Customer_Churn_LTV_Master'), 'Customer_Churn_LTV_Master'[Churn_Risk_Level] = \"High Risk\")"
+          },
+          {
+            "name": "High Risk Customer %",
+            "expression": "DIVIDE([High Risk Customer Count], [Total Customers], 0)"
+          },
+          {
+            "name": "VIP Revenue at Stake",
+            "expression": "CALCULATE(SUM('Customer_Churn_LTV_Master'[Total_Expected_LTV]), 'Customer_Churn_LTV_Master'[Retention_Segment] = \"VIP at Risk\")"
+          },
+          {
+            "name": "VIP Customer Count",
+            "expression": "CALCULATE(COUNTROWS('Customer_Churn_LTV_Master'), 'Customer_Churn_LTV_Master'[Retention_Segment] = \"VIP at Risk\")"
+          }
+        ]
+      }
+    ]
+  }
+}

@@ -1,0 +1,70 @@
+{
+  "config": "{\"version\":\"5.50\",\"themeCollection\":{\"baseTheme\":{\"name\":\"CY24SU02\",\"version\":\"5.50\",\"type\":2}},\"activeSectionIndex\":0,\"defaultDrillFilterOtherVisuals\":true,\"settings\":{\"useNewFilterPaneExperience\":true,\"allowChangeFilterTypes\":true,\"useStylableVisualContainerHeader\":true,\"queryLimitOption\":6,\"exportDataMode\":1,\"useEnhancedTooltips\":true}}",
+  "layoutOptimization": 0,
+  "sections": [
+    {
+      "name": "ReportSection1",
+      "displayName": "Executive Retention & LTV",
+      "filters": "[]",
+      "ordinal": 0,
+      "visualContainers": [
+        {
+          "x": 20,
+          "y": 20,
+          "z": 0,
+          "width": 280,
+          "height": 120,
+          "config": "{\"name\":\"kpi1\",\"singleVisual\":{\"visualType\":\"card\",\"projections\":{\"Values\":[{\"queryRef\":\"Customer_Churn_LTV_Master.Total Customers\"}]}}}"
+        },
+        {
+          "x": 320,
+          "y": 20,
+          "z": 1,
+          "width": 280,
+          "height": 120,
+          "config": "{\"name\":\"kpi2\",\"singleVisual\":{\"visualType\":\"card\",\"projections\":{\"Values\":[{\"queryRef\":\"Customer_Churn_LTV_Master.Total Portfolio LTV\"}]}}}"
+        },
+        {
+          "x": 620,
+          "y": 20,
+          "z": 2,
+          "width": 280,
+          "height": 120,
+          "config": "{\"name\":\"kpi3\",\"singleVisual\":{\"visualType\":\"card\",\"projections\":{\"Values\":[{\"queryRef\":\"Customer_Churn_LTV_Master.High Risk Customer Count\"}]}}}"
+        },
+        {
+          "x": 920,
+          "y": 20,
+          "z": 3,
+          "width": 280,
+          "height": 120,
+          "config": "{\"name\":\"kpi4\",\"singleVisual\":{\"visualType\":\"card\",\"projections\":{\"Values\":[{\"queryRef\":\"Customer_Churn_LTV_Master.VIP Revenue at Stake\"}]}}}"
+        },
+        {
+          "x": 20,
+          "y": 160,
+          "z": 4,
+          "width": 580,
+          "height": 340,
+          "config": "{\"name\":\"chart1\",\"singleVisual\":{\"visualType\":\"barChart\",\"projections\":{\"Category\":[{\"queryRef\":\"Customer_Churn_LTV_Master.Contract\"}],\"Y\":[{\"queryRef\":\"Customer_Churn_LTV_Master.Churn_Probability\"}]}}}"
+        },
+        {
+          "x": 620,
+          "y": 160,
+          "z": 5,
+          "width": 580,
+          "height": 340,
+          "config": "{\"name\":\"chart2\",\"singleVisual\":{\"visualType\":\"pieChart\",\"projections\":{\"Category\":[{\"queryRef\":\"Customer_Churn_LTV_Master.LTV_Tier\"}],\"Y\":[{\"queryRef\":\"Customer_Churn_LTV_Master.Total_Expected_LTV\"}]}}}"
+        },
+        {
+          "x": 20,
+          "y": 520,
+          "z": 6,
+          "width": 1180,
+          "height": 280,
+          "config": "{\"name\":\"table1\",\"singleVisual\":{\"visualType\":\"tableEx\",\"projections\":{\"Values\":[{\"queryRef\":\"Customer_Churn_LTV_Master.customerID\"},{\"queryRef\":\"Customer_Churn_LTV_Master.Contract\"},{\"queryRef\":\"Customer_Churn_LTV_Master.MonthlyCharges\"},{\"queryRef\":\"Customer_Churn_LTV_Master.Total_Expected_LTV\"},{\"queryRef\":\"Customer_Churn_LTV_Master.Churn_Probability\"},{\"queryRef\":\"Customer_Churn_LTV_Master.Retention_Segment\"},{\"queryRef\":\"Customer_Churn_LTV_Master.Recommended_Action\"}]}}}"
+        }
+      ]
+    }
+  ]
+}

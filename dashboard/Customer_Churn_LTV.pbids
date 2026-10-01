@@ -1,0 +1,17 @@
+{
+  "version": "0.1",
+  "connections": [
+    {
+      "details": {
+        "protocol": "file",
+        "address": {
+          "path": "C:\\Users\\TUF GAMING\\Downloads\\Customer-churn-ltv-engine-proj1-main\\Customer-churn-ltv-engine-proj1-main\\dashboard\\powerbi_customer_churn_ltv_master.csv"
+        },
+        "authentication": null,
+        "query": null
+      },
+      "options": {},
+      "mode": null
+    }
+  ]
+}
