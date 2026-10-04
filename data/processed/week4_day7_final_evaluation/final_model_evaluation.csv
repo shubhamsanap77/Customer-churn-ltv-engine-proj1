@@ -1,0 +1,4 @@
+Model,Accuracy,Precision,Recall,F1 Score,ROC-AUC,Accuracy_Verified,Precision_Verified,Recall_Verified,F1_Verified,Hard_Metrics_Verified,ROC_AUC_Source
+Logistic Regression,0.8034066713981547,0.6520376175548589,0.5561497326203209,0.6002886002886003,0.8417215634606938,True,True,True,True,True,Week 4 Day 2 reported reference result
+Decision Tree,0.7927608232789212,0.6385135135135135,0.5053475935828877,0.564179104477612,0.8376269084708983,True,True,True,True,True,Week 4 Day 2 reported reference result
+Random Forest,0.7430801987224982,0.9285714285714286,0.034759358288770054,0.06701030927835051,0.8201193520886616,True,True,True,True,True,Week 4 Day 2 reported reference result

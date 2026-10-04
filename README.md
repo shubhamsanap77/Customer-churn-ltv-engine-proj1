@@ -1,84 +1,109 @@
-# Customer-churn-ltv-engine-proj1
-
-production level data analytics project - customer churn prediction and lifetime value engine
-
 # Customer Churn Prediction & Lifetime Value (LTV) Engine
+
+A production-oriented data analytics project for customer churn prediction
+and lifetime value analysis.
 
 ## Project Overview
 
-A predictive analytics system designed for telecommunications or subscription-based businesses.
+The project uses customer demographic, service, tenure, and billing
+information to:
 
-The system uses historical customer demographic data, billing information, and service usage metrics to:
-
-- Identify customers at high risk of cancellation (churn)
-- Predict Customer Lifetime Value (LTV)
-- Help marketing teams prioritize high-value retention campaigns
+- Identify customers at risk of churn
+- Evaluate classification models for churn prediction
+- Estimate customer lifetime value (LTV)
+- Integrate churn predictions with customer-level LTV information
+- Produce validated outputs for downstream analytics and dashboard/API work
 
 ## Data Source
 
 ### Telco Customer Churn Dataset
 
-The dataset contains over 7,000 rows of customer data, including:
+The project is based on the Telco Customer Churn dataset and uses customer
+attributes including:
 
 - Tenure
 - Monthly charges
-- Contract types
-- Internet service details
+- Contract type
+- Internet service
+- Customer service features
 - Churn status
 
 ## Tech Stack
 
 - Python
-- SQL
-- PostgreSQL
-- SQLAlchemy
 - Pandas
+- NumPy
 - Scikit-Learn
 - XGBoost
-- SHAP
+- Matplotlib
+- Seaborn
+- SQL / PostgreSQL
+- SQLAlchemy
 - FastAPI
 - Apache Superset / Metabase
+- Git / GitHub
 
-## Project Timeline
+## Project Work Completed
 
-### Week 1 — Data Ingestion & Exploratory Data Analysis
+### Data Preparation and Feature Engineering
 
-- Set up PostgreSQL database
-- Load the Telco dataset
-- Perform EDA
-- Handle missing values
-- Encode categorical variables
-- Prepare baseline analytics report
+The repository contains data preparation, preprocessing, feature engineering,
+and baseline analytics outputs.
 
-### Week 2 — Feature Engineering & Predictive Modeling
+### Churn Model Development
 
-- Engineer useful features
-- Train classification models
-- Evaluate using Precision, Recall and F1-Score
-- Implement SHAP for model explainability
+The project contains saved churn classification pipelines for:
 
-### Week 3 — LTV Calculation & API Development
+- Logistic Regression
+- Decision Tree
+- Random Forest
 
-- Forecast expected lifetime revenue
-- Develop regression models
-- Build FastAPI prediction service
-- Support single-customer and batch predictions
+The saved scikit-learn pipelines include their required preprocessing steps.
 
-### Week 4 — Visualization & Deployment
+### Churn + LTV Integration
 
-- Connect dashboard to database/API
-- Build interactive dashboards
-- Show churn risk and LTV segments
-- Containerize the application using Docker
-- Complete technical documentation
+The Week 4 Day 3 integration combines customer-level LTV information with
+churn predictions and probabilities from the saved churn models.
 
-## Expected Impact
+The integrated output contains 5,174 customer records and preserves unique
+customer IDs.
 
-- Reduce customer acquisition costs through proactive retention
-- Optimize marketing budgets
-- Identify high-value customer segments
-- Support data-driven retention decisions
+### Final Model Evaluation
 
-## Project Status
+The Week 4 Day 7 final evaluation independently verifies Accuracy, Precision,
+Recall, and F1 Score using the verified Week 4 Day 2 prediction output.
 
-🚧 Development in Progress
+Final reported model results:
+
+| Model | Accuracy | Precision | Recall | F1 Score | ROC-AUC |
+|---|---:|---:|---:|---:|---:|
+| Logistic Regression | 0.8034 | 0.6520 | 0.5562 | 0.6003 | 0.8417 |
+| Decision Tree | 0.7928 | 0.6385 | 0.5053 | 0.5642 | 0.8376 |
+| Random Forest | 0.7431 | 0.9286 | 0.0348 | 0.0670 | 0.8201 |
+
+Based on the measured evaluation metrics, Logistic Regression is the
+strongest overall performer among these three models.
+
+Random Forest has the highest precision but substantially lower recall.
+
+## Week 4 Day 7 Validation
+
+The final Week 4 validation confirmed:
+
+- 5,174 integrated customer records
+- 5,174 unique customer IDs
+- 0 missing customer IDs
+- 0 missing Estimated_LTV values
+- Churn predictions restricted to 0/1
+- Churn probabilities within the [0, 1] range
+- 0 missing values in the integrated output
+- All dedicated Week 4 Day 7 tests passed
+- All required Python dependencies were available
+- `pip check` reported no broken requirements
+
+## Important Output Locations
+
+### Week 4 Day 3 Integration
+
+```text
+data/processed/week4_day3_integration/

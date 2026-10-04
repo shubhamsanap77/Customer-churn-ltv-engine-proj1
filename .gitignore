@@ -17,3 +17,5 @@ data/processed/*.csv
 .pytest_cache/
 .DS_Store
 data/processed/day3_ml/X_train.csv
+# Local Week 4 compatibility environment
+.venv_week4/

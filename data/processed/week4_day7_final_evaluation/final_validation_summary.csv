@@ -1,0 +1,14 @@
+Validation,Status,Value
+Integrated row count,PASS,5174
+Unique customer IDs,PASS,5174
+Missing customer IDs,PASS,0
+Missing Estimated_LTV,PASS,0
+Estimated_LTV numeric,PASS,float64
+Estimated_LTV minimum non-negative,PASS,19.1
+Logistic_Churn_Prediction contains only 0/1,PASS,"[0, 1]"
+DecisionTree_Churn_Prediction contains only 0/1,PASS,"[0, 1]"
+RandomForest_Churn_Prediction contains only 0/1,PASS,"[0, 1]"
+"Logistic_Churn_Probability in [0, 1]",PASS,"(0.0018021193204929, 0.8218352857958277)"
+"DecisionTree_Churn_Probability in [0, 1]",PASS,"(0.0, 0.888268156424581)"
+"RandomForest_Churn_Probability in [0, 1]",PASS,"(0.0671895798225522, 0.5072553745880453)"
+No missing values in integrated output,PASS,0

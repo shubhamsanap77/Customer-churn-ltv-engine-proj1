@@ -1,0 +1,49 @@
+WEEK 4 DAY 7 - FINAL MODEL EVALUATION SUMMARY
+============================================================
+
+FINAL STATUS:
+PASS
+
+WEEK 4 DAY 2 EVALUATION REFERENCE
+Test rows: 1409
+Actual class distribution: 1035 non-churn / 374 churn
+
+MODEL RESULTS:
+              Model  Accuracy  Precision   Recall  F1 Score  ROC-AUC
+Logistic Regression  0.803407   0.652038 0.556150  0.600289 0.841722
+      Decision Tree  0.792761   0.638514 0.505348  0.564179 0.837627
+      Random Forest  0.743080   0.928571 0.034759  0.067010 0.820119
+
+Highest F1 Score: Logistic Regression
+Highest ROC-AUC: Logistic Regression
+
+VERIFICATION NOTE:
+Accuracy, Precision, Recall and F1 were independently recalculated from the Week 4 Day 2 prediction file and matched the reported reference values exactly.
+
+ROC-AUC NOTE:
+ROC-AUC values are preserved from the Week 4 Day 2 reference metrics because the available prediction file contains hard class predictions rather than probability/decision scores required to independently recalculate ROC-AUC.
+
+WEEK 4 DAY 3 INTEGRATION VALIDATION:
+                                     Validation Status                                    Value
+                           Integrated row count   PASS                                     5174
+                            Unique customer IDs   PASS                                     5174
+                           Missing customer IDs   PASS                                        0
+                          Missing Estimated_LTV   PASS                                        0
+                          Estimated_LTV numeric   PASS                                  float64
+             Estimated_LTV minimum non-negative   PASS                                     19.1
+    Logistic_Churn_Prediction contains only 0/1   PASS                                   [0, 1]
+DecisionTree_Churn_Prediction contains only 0/1   PASS                                   [0, 1]
+RandomForest_Churn_Prediction contains only 0/1   PASS                                   [0, 1]
+           Logistic_Churn_Probability in [0, 1]   PASS (0.0018021193204929, 0.8218352857958277)
+       DecisionTree_Churn_Probability in [0, 1]   PASS                 (0.0, 0.888268156424581)
+       RandomForest_Churn_Probability in [0, 1]   PASS (0.0671895798225522, 0.5072553745880453)
+         No missing values in integrated output   PASS                                        0
+
+OUTPUTS:
+C:\Users\rohan\OneDrive\Documents\GitHub\Customer-churn-ltv-engine-proj1\data\processed\week4_day7_final_evaluation\final_model_evaluation.csv
+C:\Users\rohan\OneDrive\Documents\GitHub\Customer-churn-ltv-engine-proj1\data\processed\week4_day7_final_evaluation\final_classification_reports.txt
+C:\Users\rohan\OneDrive\Documents\GitHub\Customer-churn-ltv-engine-proj1\data\processed\week4_day7_final_evaluation\final_validation_summary.csv
+C:\Users\rohan\OneDrive\Documents\GitHub\Customer-churn-ltv-engine-proj1\data\processed\week4_day7_final_evaluation\final_evaluation_summary.txt
+C:\Users\rohan\OneDrive\Documents\GitHub\Customer-churn-ltv-engine-proj1\data\processed\week4_day7_final_evaluation\final_model_comparison.png
+
+SUCCESS: Week 4 final evaluation completed.
