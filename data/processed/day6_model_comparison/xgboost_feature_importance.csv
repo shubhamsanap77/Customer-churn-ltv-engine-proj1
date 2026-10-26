@@ -1,0 +1,51 @@
+feature,importance
+categorical__Contract_Month-to-month,0.2206989
+categorical__Contract_Two year,0.07747373
+categorical__OnlineSecurity_No,0.07224048
+categorical__InternetService_Fiber optic,0.059774578
+categorical__TechSupport_No,0.055093385
+categorical__Contract_One year,0.037125755
+numeric__HasInternetService,0.020316726
+categorical__OnlineSecurity_No internet service,0.0201502
+categorical__InternetService_DSL,0.019431382
+numeric__tenure,0.014733548
+categorical__StreamingMovies_Yes,0.014353484
+numeric__HasStreamingMovies,0.013246158
+categorical__OnlineBackup_No,0.013183032
+categorical__PaymentMethod_Electronic check,0.013100055
+numeric__IsAutoPayment,0.0110933585
+numeric__HasOnlineSecurity,0.010294377
+categorical__PaperlessBilling_Yes,0.009739349
+categorical__PhoneService_No,0.009008636
+numeric__MonthlyCharges,0.008767634
+categorical__PhoneService_Yes,0.008720637
+categorical__OnlineBackup_Yes,0.0082965875
+numeric__HasTechSupport,0.008212743
+numeric__HasPhoneService,0.008101511
+categorical__StreamingMovies_No,0.0077278195
+categorical__MultipleLines_No,0.0076240944
+numeric__HasOnlineBackup,0.0076233563
+numeric__HasStreamingTV,0.007582209
+categorical__MultipleLines_No phone service,0.0074534686
+categorical__TotalCharges_19.45,0.0074088536
+categorical__PaperlessBilling_No,0.0073113777
+categorical__StreamingTV_Yes,0.0071216878
+numeric__IsSeniorCitizen,0.007104467
+numeric__TotalServices,0.0070513017
+categorical__Dependents_No,0.0069940323
+categorical__DeviceProtection_Yes,0.0068577738
+categorical__gender_Female,0.0067495005
+categorical__Dependents_Yes,0.0066151586
+categorical__TechSupport_Yes,0.0065036183
+categorical__PaymentMethod_Mailed check,0.006450098
+numeric__IsPaperlessBilling,0.0064324285
+numeric__SeniorCitizen,0.0064037303
+numeric__HasDeviceProtection,0.0062886607
+categorical__Partner_No,0.0060941065
+categorical__PaymentMethod_Bank transfer (automatic),0.0060469164
+categorical__TotalCharges_20.15,0.0059424117
+categorical__InternetService_No,0.0058278395
+categorical__Partner_Yes,0.0057645557
+numeric__HasFamily,0.0057151285
+categorical__PaymentMethod_Credit card (automatic),0.005647759
+numeric__HasDependents,0.005611365
