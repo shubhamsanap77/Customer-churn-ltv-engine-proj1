@@ -1,0 +1,4 @@
+Model,MAE ($),RMSE ($),R2 Score,MAPE (%)
+Ridge Regression,566.57,699.74,0.9059,354.36
+Random Forest Regressor,53.51,80.96,0.9987,3.87
+XGBoost Regressor,52.51,78.45,0.9988,4.79

@@ -1,0 +1,156 @@
+// ============================================================================
+// POWER BI DAX MEASURES LIBRARY
+// Project: Customer Churn Prediction & Lifetime Value (LTV) Engine
+// Contributor: Rajesh (Rajarsh) - Week 4 Day 4
+// ============================================================================
+
+// ----------------------------------------------------------------------------
+// 1. EXECUTIVE & PORTFOLIO KPI MEASURES
+// ----------------------------------------------------------------------------
+
+Total Customers = 
+COUNTROWS('powerbi_customer_churn_ltv_master')
+
+Active Retained Customers = 
+CALCULATE(
+    [Total Customers],
+    'powerbi_customer_churn_ltv_master'[Churn] = "No"
+)
+
+Historical Churned Customers = 
+CALCULATE(
+    [Total Customers],
+    'powerbi_customer_churn_ltv_master'[Churn] = "Yes"
+)
+
+Historical Churn Rate % = 
+DIVIDE(
+    [Historical Churned Customers],
+    [Total Customers],
+    0
+)
+
+Total Portfolio LTV = 
+SUM('powerbi_customer_churn_ltv_master'[Total_Expected_LTV])
+
+Average Customer LTV = 
+AVERAGE('powerbi_customer_churn_ltv_master'[Total_Expected_LTV])
+
+Average Monthly Spend = 
+AVERAGE('powerbi_customer_churn_ltv_master'[MonthlyCharges])
+
+Average Customer Tenure = 
+AVERAGE('powerbi_customer_churn_ltv_master'[tenure])
+
+
+// ----------------------------------------------------------------------------
+// 2. PREDICTIVE CHURN RISK MEASURES (ML MODEL SCORES)
+// ----------------------------------------------------------------------------
+
+Average Churn Probability % = 
+AVERAGE('powerbi_customer_churn_ltv_master'[Churn_Probability])
+
+High Risk Customer Count = 
+CALCULATE(
+    [Total Customers],
+    'powerbi_customer_churn_ltv_master'[Churn_Risk_Level] = "High Risk"
+)
+
+High Risk Customer % = 
+DIVIDE(
+    [High Risk Customer Count],
+    [Total Customers],
+    0
+)
+
+Medium Risk Customer Count = 
+CALCULATE(
+    [Total Customers],
+    'powerbi_customer_churn_ltv_master'[Churn_Risk_Level] = "Medium Risk"
+)
+
+Low Risk Customer Count = 
+CALCULATE(
+    [Total Customers],
+    'powerbi_customer_churn_ltv_master'[Churn_Risk_Level] = "Low Risk"
+)
+
+
+// ----------------------------------------------------------------------------
+// 3. FINANCIAL REVENUE AT RISK & LTV SEGMENTATION
+// ----------------------------------------------------------------------------
+
+Total Revenue at Risk ($) = 
+CALCULATE(
+    [Total Portfolio LTV],
+    'powerbi_customer_churn_ltv_master'[Churn_Risk_Level] = "High Risk"
+)
+
+Revenue at Risk % = 
+DIVIDE(
+    [Total Revenue at Risk ($)],
+    [Total Portfolio LTV],
+    0
+)
+
+VIP at Risk Customer Count = 
+CALCULATE(
+    [Total Customers],
+    'powerbi_customer_churn_ltv_master'[Retention_Segment] = "VIP at Risk"
+)
+
+VIP Revenue at Stake ($) = 
+CALCULATE(
+    [Total Portfolio LTV],
+    'powerbi_customer_churn_ltv_master'[Retention_Segment] = "VIP at Risk"
+)
+
+Loyal Champions Value ($) = 
+CALCULATE(
+    [Total Portfolio LTV],
+    'powerbi_customer_churn_ltv_master'[Retention_Segment] = "Loyal Champions"
+)
+
+Platinum Tier Revenue ($) = 
+CALCULATE(
+    [Total Portfolio LTV],
+    'powerbi_customer_churn_ltv_master'[LTV_Tier] = "Platinum"
+)
+
+Platinum Tier Revenue Share % = 
+DIVIDE(
+    [Platinum Tier Revenue ($)],
+    [Total Portfolio LTV],
+    0
+)
+
+
+// ----------------------------------------------------------------------------
+// 4. RETENTION CAMPAIGN WHAT-IF SIMULATOR MEASURES
+// (Connects with Power BI What-If Parameters: Discount % and Outreach Success Rate)
+// ----------------------------------------------------------------------------
+
+// Assumed parameters if no slider is created:
+// Default Retention Outreach Cost = $50 per high-risk account
+// Default Rescue Success Rate = 50%
+// Default Retention Discount = 15%
+
+Gross Revenue Rescued ($) = 
+VAR SuccessRate = 0.50
+RETURN
+[VIP Revenue at Stake ($)] * SuccessRate
+
+Total Retention Campaign Cost ($) = 
+VAR CostPerCustomer = 50
+RETURN
+[VIP at Risk Customer Count] * CostPerCustomer
+
+Net Retention Campaign ROI ($) = 
+[Gross Revenue Rescued ($)] - [Total Retention Campaign Cost ($)]
+
+Retention ROI Multiplier = 
+DIVIDE(
+    [Net Retention Campaign ROI ($)],
+    [Total Retention Campaign Cost ($)],
+    0
+)

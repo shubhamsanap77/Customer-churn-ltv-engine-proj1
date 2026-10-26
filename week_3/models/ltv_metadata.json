@@ -1,0 +1,59 @@
+{
+    "author": "Rajarsh",
+    "task": "Week 3 Day 4: LTV prediction/calculation module and notebook",
+    "champion_model": "XGBoost Regressor",
+    "metrics": {
+        "Ridge Regression": {
+            "MAE ($)": 566.57,
+            "RMSE ($)": 699.74,
+            "R2 Score": 0.9059,
+            "MAPE (%)": 354.36
+        },
+        "Random Forest Regressor": {
+            "MAE ($)": 53.51,
+            "RMSE ($)": 80.96,
+            "R2 Score": 0.9987,
+            "MAPE (%)": 3.87
+        },
+        "XGBoost Regressor": {
+            "MAE ($)": 52.51,
+            "RMSE ($)": 78.45,
+            "R2 Score": 0.9988,
+            "MAPE (%)": 4.79
+        }
+    },
+    "feature_names": [
+        "SeniorCitizen",
+        "Partner",
+        "Dependents",
+        "tenure",
+        "PhoneService",
+        "PaperlessBilling",
+        "MonthlyCharges",
+        "Churn",
+        "is_female",
+        "service_count",
+        "MultipleLines_No phone service",
+        "MultipleLines_Yes",
+        "InternetService_Fiber optic",
+        "InternetService_No",
+        "OnlineSecurity_No internet service",
+        "OnlineSecurity_Yes",
+        "OnlineBackup_No internet service",
+        "OnlineBackup_Yes",
+        "DeviceProtection_No internet service",
+        "DeviceProtection_Yes",
+        "TechSupport_No internet service",
+        "TechSupport_Yes",
+        "StreamingTV_No internet service",
+        "StreamingTV_Yes",
+        "StreamingMovies_No internet service",
+        "StreamingMovies_Yes",
+        "Contract_One year",
+        "Contract_Two year",
+        "PaymentMethod_Credit card (automatic)",
+        "PaymentMethod_Electronic check",
+        "PaymentMethod_Mailed check"
+    ],
+    "total_features": 31
+}
