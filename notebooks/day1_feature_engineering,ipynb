@@ -1,0 +1,103 @@
+import pandas as pd
+
+# Load the Week 1 dataset
+df = pd.read_csv("data/WA_Fn-UseC_-Telco-Customer-Churn.csv")
+
+# Display basic information
+print("Dataset shape:", df.shape)
+df.head()
+# Create new customer-level features
+
+df["IsSeniorCitizen"] = df["SeniorCitizen"].astype(int)
+
+df["HasPartner"] = (df["Partner"] == "Yes").astype(int)
+
+df["HasDependents"] = (df["Dependents"] == "Yes").astype(int)
+
+df["HasFamily"] = (
+    (df["Partner"] == "Yes") | (df["Dependents"] == "Yes")
+).astype(int)
+
+df["HasPhoneService"] = (df["PhoneService"] == "Yes").astype(int)
+
+df["HasInternetService"] = (df["InternetService"] != "No").astype(int)
+
+df["HasOnlineSecurity"] = (df["OnlineSecurity"] == "Yes").astype(int)
+
+df["HasOnlineBackup"] = (df["OnlineBackup"] == "Yes").astype(int)
+
+df["HasDeviceProtection"] = (df["DeviceProtection"] == "Yes").astype(int)
+
+df["HasTechSupport"] = (df["TechSupport"] == "Yes").astype(int)
+
+df["HasStreamingTV"] = (df["StreamingTV"] == "Yes").astype(int)
+
+df["HasStreamingMovies"] = (df["StreamingMovies"] == "Yes").astype(int)
+
+df["IsPaperlessBilling"] = (df["PaperlessBilling"] == "Yes").astype(int)
+
+df["IsAutoPayment"] = (
+    df["PaymentMethod"].str.contains("automatic", case=False, na=False)
+).astype(int)
+
+service_features = [
+    "HasPhoneService",
+    "HasInternetService",
+    "HasOnlineSecurity",
+    "HasOnlineBackup",
+    "HasDeviceProtection",
+    "HasTechSupport",
+    "HasStreamingTV",
+    "HasStreamingMovies"
+]
+
+df["TotalServices"] = df[service_features].sum(axis=1)
+
+df[
+    [
+        "customerID",
+        "IsSeniorCitizen",
+        "HasPartner",
+        "HasDependents",
+        "HasFamily",
+        "HasPhoneService",
+        "HasInternetService",
+        "TotalServices",
+        "IsPaperlessBilling",
+        "IsAutoPayment"
+    ]
+].head()
+# Verify newly created features
+
+new_features = [
+    "IsSeniorCitizen",
+    "HasPartner",
+    "HasDependents",
+    "HasFamily",
+    "HasPhoneService",
+    "HasInternetService",
+    "HasOnlineSecurity",
+    "HasOnlineBackup",
+    "HasDeviceProtection",
+    "HasTechSupport",
+    "HasStreamingTV",
+    "HasStreamingMovies",
+    "IsPaperlessBilling",
+    "IsAutoPayment",
+    "TotalServices"
+]
+
+print("Number of new features:", len(new_features))
+print("\nNew features created:")
+print(new_features)
+
+print("\nDataset shape after feature engineering:", df.shape)
+# Save the initial engineered dataset
+
+output_path = "data/initial_engineered_customer_dataset.csv"
+
+df.to_csv(output_path, index=False)
+
+print("Initial engineered dataset saved successfully.")
+print("File:", output_path)
+print("Shape:", df.shape)
